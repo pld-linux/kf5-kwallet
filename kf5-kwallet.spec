@@ -3,28 +3,29 @@
 # /usr/include/KF5
 # /usr/share/knotifications5
 # /usr/share/kservices5
-
-%define         _state          stable
-%define		orgname		kwallet
+# - build with kf5-gpgmepp
+%define		kdeframever	5.4
+%define		qtver		5.3.2
+%define		kfname		kwallet
 
 Summary:	Safe desktop-wide storage for passwords
-Name:		kf5-%{orgname}
-Version:	5.0.0
+Name:		kf5-%{kfname}
+Version:	5.4.0
 Release:	0.1
 License:	LGPL v2.1+
 Group:		X11/Libraries
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/frameworks/%{version}/%{orgname}-%{version}.tar.xz
-# Source0-md5:	14fc1c13e13ed451dbe8065fe3bc96ec
+Source0:	http://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
+# Source0-md5:	244af5c935e94271c5a7781e629a2a78
 URL:		http://www.kde.org/
-BuildRequires:	Qt5Core-devel >= 5.2.0
-BuildRequires:	Qt5DBus-devel
-BuildRequires:	Qt5Gui-devel >= 5.3.1
-BuildRequires:	Qt5Test-devel
-BuildRequires:	Qt5Widgets-devel
-BuildRequires:	Qt5Xml-devel >= 5.2.0
+BuildRequires:	Qt5Core-devel >= %{qtver}
+BuildRequires:	Qt5DBus-devel >= %{qtver}
+BuildRequires:	Qt5Gui-devel >= %{qtver}
+BuildRequires:	Qt5Test-devel >= %{qtver}
+BuildRequires:	Qt5Widgets-devel >= %{qtver}
+BuildRequires:	Qt5Xml-devel >= %{qtver}
 BuildRequires:	cmake >= 2.8.12
 BuildRequires:	gettext-devel
-BuildRequires:	kf5-extra-cmake-modules >= 1.0.0
+BuildRequires:	kf5-extra-cmake-modules >= 1.4.0
 BuildRequires:	kf5-kauth-devel >= %{version}
 BuildRequires:	kf5-kcodecs-devel >= %{version}
 BuildRequires:	kf5-kconfig-devel >= %{version}
@@ -57,36 +58,25 @@ The library can be built alone, without kwalletd, by setting the
 `BUILD_KWALLETD` option to `OFF`.
 
 %package devel
-Summary:	Header files for %{orgname} development
-Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{orgname}
+Summary:	Header files for %{kfname} development
+Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kfname}
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
-Header files for %{orgname} development.
+Header files for %{kfname} development.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe dla programistów używających %{orgname}.
+Pliki nagłówkowe dla programistów używających %{kfname}.
 
 %prep
-%setup -q -n %{orgname}-%{version}
+%setup -q -n %{kfname}-%{version}
 
 %build
 install -d build
 cd build
 %cmake \
-	-DBIN_INSTALL_DIR=%{_bindir} \
-	-DKCFG_INSTALL_DIR=%{_datadir}/config.kcfg \
-	-DPLUGIN_INSTALL_DIR=%{qt5dir}/plugins \
-	-DQT_PLUGIN_INSTALL_DIR=%{qt5dir}/plugins \
-	-DQML_INSTALL_DIR=%{qt5dir}/qml \
-	-DIMPORTS_INSTALL_DIR=%{qt5dirs}/imports \
-	-DSYSCONF_INSTALL_DIR=%{_sysconfdir} \
-	-DLIBEXEC_INSTALL_DIR=%{_libexecdir} \
-	-DKF5_LIBEXEC_INSTALL_DIR=%{_libexecdir} \
-	-DKF5_INCLUDE_INSTALL_DIR=%{_includedir} \
-	-DECM_MKSPECS_INSTALL_DIR=%{qt5dir}/mkspecs/modules \
-	-D_IMPORT_PREFIX=%{_prefix} \
+	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
 	../
 %{__make}
 
@@ -107,10 +97,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.md
 %attr(755,root,root) %{_bindir}/kwalletd5
 %attr(755,root,root) %ghost %{_libdir}/libKF5Wallet.so.5
-%attr(755,root,root) %{_libdir}/libKF5Wallet.so.5.0.0
+%attr(755,root,root) %{_libdir}/libKF5Wallet.so.5.4.0
 %attr(755,root,root) %ghost %{_libdir}/libkwalletbackend5.so.5
-%attr(755,root,root) %{_libdir}/libkwalletbackend5.so.5.0.0
+%attr(755,root,root) %{_libdir}/libkwalletbackend5.so.5.4.0
 %{_datadir}/dbus-1/interfaces/kf5_org.kde.KWallet.xml
+%{_datadir}/dbus-1/services/org.kde.kwalletd.service
 %{_datadir}/dbus-1/services/org.kde.kwalletd5.service
 %{_datadir}/knotifications5/kwalletd.notifyrc
 %{_datadir}/kservices5/kwalletd5.desktop
