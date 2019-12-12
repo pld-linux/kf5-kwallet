@@ -1,18 +1,18 @@
 # TODO:
 # Not packaged:
 # - build with kf5-gpgmepp
-%define		kdeframever	5.59
+%define		kdeframever	5.62
 %define		qtver		5.9.0
 %define		kfname		kwallet
 
 Summary:	Safe desktop-wide storage for passwords
 Name:		kf5-%{kfname}
-Version:	5.59.0
+Version:	5.62.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
-# Source0-md5:	f490c8e94151aab50a91fc57f93b597a
+# Source0-md5:	408758fb0cb516b62c10f82308f5b065
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5DBus-devel >= %{qtver}
@@ -102,11 +102,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libkwalletbackend5.so.5
 %attr(755,root,root) %{_libdir}/libkwalletbackend5.so.*.*
 %{_datadir}/dbus-1/interfaces/kf5_org.kde.KWallet.xml
-%{_datadir}/dbus-1/services/org.kde.kwalletd.service
 %{_datadir}/dbus-1/services/org.kde.kwalletd5.service
 %{_datadir}/knotifications5/kwalletd.notifyrc
 %{_datadir}/kservices5/kwalletd5.desktop
-/etc/xdg/kwallet.categories
+%{_datadir}/qlogging-categories5/kwallet.categories
 
 %files devel
 %defattr(644,root,root,755)
