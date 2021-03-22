@@ -1,18 +1,18 @@
 # TODO:
 # Not packaged:
 # - build with kf5-gpgmepp
-%define		kdeframever	5.79
+%define		kdeframever	5.80
 %define		qtver		5.9.0
 %define		kfname		kwallet
 
 Summary:	Safe desktop-wide storage for passwords
 Name:		kf5-%{kfname}
-Version:	5.79.0
+Version:	5.80.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
-# Source0-md5:	66e705d82e006aac8071105f517f275b
+# Source0-md5:	fa54394cd5fa9b155931de7efc32579f
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5DBus-devel >= %{qtver}
@@ -97,9 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.md
 %attr(755,root,root) %{_bindir}/kwalletd5
 %attr(755,root,root) %{_bindir}/kwallet-query
-%attr(755,root,root) %ghost %{_libdir}/libKF5Wallet.so.5
+%ghost %{_libdir}/libKF5Wallet.so.5
 %attr(755,root,root) %{_libdir}/libKF5Wallet.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkwalletbackend5.so.5
+%ghost %{_libdir}/libkwalletbackend5.so.5
 %attr(755,root,root) %{_libdir}/libkwalletbackend5.so.*.*
 %{_datadir}/dbus-1/interfaces/kf5_org.kde.KWallet.xml
 %{_datadir}/dbus-1/services/org.kde.kwalletd5.service
@@ -113,7 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/KF5/KWallet
 %{_includedir}/KF5/kwallet_version.h
 %{_libdir}/cmake/KF5Wallet
-%attr(755,root,root) %{_libdir}/libKF5Wallet.so
-%attr(755,root,root) %{_libdir}/libkwalletbackend5.so
+%{_libdir}/libKF5Wallet.so
+%{_libdir}/libkwalletbackend5.so
 %{qt5dir}/mkspecs/modules/qt_KWallet.pri
 %{_mandir}/man1/kwallet-query.1*
