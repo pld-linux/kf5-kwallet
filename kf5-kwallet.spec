@@ -2,7 +2,7 @@
 # Not packaged:
 # - build with kf5-gpgmepp
 %define		kdeframever	5.80
-%define		qtver		5.9.0
+%define		qtver		5.14.0
 %define		kfname		kwallet
 
 Summary:	Safe desktop-wide storage for passwords
@@ -14,26 +14,19 @@ Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
 # Source0-md5:	fa54394cd5fa9b155931de7efc32579f
 URL:		http://www.kde.org/
-BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5DBus-devel >= %{qtver}
 BuildRequires:	Qt5Gui-devel >= %{qtver}
 BuildRequires:	Qt5Test-devel >= %{qtver}
 BuildRequires:	Qt5Widgets-devel >= %{qtver}
-BuildRequires:	Qt5Xml-devel >= %{qtver}
-BuildRequires:	cmake >= 2.8.12
-BuildRequires:	gettext-devel
-BuildRequires:	gpgme-c++-devel
+BuildRequires:	cmake >= 3.5
+BuildRequires:	gpgme-c++-devel >= 1:1.7.0
 BuildRequires:	kf5-extra-cmake-modules >= %{version}
-BuildRequires:	kf5-kauth-devel >= %{version}
-BuildRequires:	kf5-kcodecs-devel >= %{version}
 BuildRequires:	kf5-kconfig-devel >= %{version}
 BuildRequires:	kf5-kconfigwidgets-devel >= %{version}
 BuildRequires:	kf5-kcoreaddons-devel >= %{version}
 BuildRequires:	kf5-kdbusaddons-devel >= %{version}
-BuildRequires:	kf5-kguiaddons-devel >= %{version}
+BuildRequires:	kf5-kdoctools-devel >= %{version}
 BuildRequires:	kf5-ki18n-devel >= %{version}
-BuildRequires:	kf5-kiconthemes-devel >= %{version}
-BuildRequires:	kf5-kitemviews-devel >= %{version}
 BuildRequires:	kf5-knotifications-devel >= %{version}
 BuildRequires:	kf5-kservice-devel >= %{version}
 BuildRequires:	kf5-kwidgetsaddons-devel >= %{version}
@@ -43,7 +36,21 @@ BuildRequires:	ninja
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+Requires:	Qt5DBus >= %{qtver}
+Requires:	Qt5Gui >= %{qtver}
+Requires:	Qt5Widgets >= %{qtver}
+Requires:	gpgme-c++ >= 1:1.7.0
 Requires:	kf5-dirs
+Requires:	kf5-kconfig >= %{version}
+Requires:	kf5-kconfigwidgets >= %{version}
+Requires:	kf5-kcoreaddons >= %{version}
+Requires:	kf5-kdbusaddons >= %{version}
+Requires:	kf5-ki18n >= %{version}
+Requires:	kf5-knotifications >= %{version}
+Requires:	kf5-kservice >= %{version}
+Requires:	kf5-kwidgetsaddons >= %{version}
+Requires:	kf5-kwindowsystem >= %{version}
+Requires:	libgcrypt >= 1.5.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		qt5dir		%{_libdir}/qt5
@@ -62,6 +69,7 @@ Summary:	Header files for %{kfname} development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kfname}
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	Qt5Gui-devel >= %{qtver}
 
 %description devel
 Header files for %{kfname} development.
