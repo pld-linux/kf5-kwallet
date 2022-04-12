@@ -4,18 +4,18 @@
 # TODO:
 # Not packaged:
 # - build with kf5-gpgmepp
-%define		kdeframever	5.92
+%define		kdeframever	5.93
 %define		qtver		5.15.2
 %define		kfname		kwallet
 
 Summary:	Safe desktop-wide storage for passwords
 Name:		kf5-%{kfname}
-Version:	5.92.0
+Version:	5.93.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
-# Source0-md5:	ebb50dff1f25f0baf2e0e9e7642e8934
+# Source0-md5:	7a35dc81996b6e9a9cafd05e0b4959b0
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5DBus-devel >= %{qtver}
