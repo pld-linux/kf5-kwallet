@@ -11,7 +11,7 @@
 Summary:	Safe desktop-wide storage for passwords
 Name:		kf5-%{kfname}
 Version:	5.99.0
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
