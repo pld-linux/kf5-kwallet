@@ -4,18 +4,18 @@
 # TODO:
 # Not packaged:
 # - build with kf5-gpgmepp
-%define		kdeframever	5.108
+%define		kdeframever	5.109
 %define		qtver		5.15.2
 %define		kfname		kwallet
 
 Summary:	Safe desktop-wide storage for passwords
 Name:		kf5-%{kfname}
-Version:	5.108.0
-Release:	2
+Version:	5.109.0
+Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
-# Source0-md5:	971e4990e951367fe6e047e0f6ed5d08
+# Source0-md5:	fb90ee7dad377b5fe11cc5a60c0721c5
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5DBus-devel >= %{qtver}
@@ -86,16 +86,15 @@ Pliki nagłówkowe dla programistów używających %{kfname}.
 %setup -q -n %{kfname}-%{version}
 
 %build
-install -d build
-cd build
-%cmake -G Ninja \
+%cmake -B build \
+	-G Ninja \
 	%{!?with_tests:-DBUILD_TESTING=OFF} \
-	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
-	../
-%ninja_build
+	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+
+%ninja_build -C build
 
 %if %{with tests}
-ctest
+%ninja_build -C build test
 %endif
 
 
