@@ -4,24 +4,24 @@
 # TODO:
 # Not packaged:
 # - build with kf5-gpgmepp
-%define		kdeframever	5.249.0
+%define		kdeframever	5.114
 %define		qtver		5.15.2
 %define		kfname		kwallet
 
 Summary:	Safe desktop-wide storage for passwords
 Name:		kf5-%{kfname}
-Version:	5.249.0
-Release:	0.1
+Version:	5.114.0
+Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
-Source0:	https://download.kde.org/unstable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
-# Source0-md5:	21629b0c4d4c3e5f3d507686707727d7
+Source0:	https://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
+# Source0-md5:	8833b0081de0f3a2044d748b14422a50
 URL:		http://www.kde.org/
-BuildRequires:	Qt6Core-devel >= %{qtver}
-BuildRequires:	Qt6DBus-devel >= %{qtver}
-BuildRequires:	Qt6Gui-devel >= %{qtver}
-BuildRequires:	Qt6Test-devel >= %{qtver}
-BuildRequires:	Qt6Widgets-devel >= %{qtver}
+BuildRequires:	Qt5Core-devel >= %{qtver}
+BuildRequires:	Qt5DBus-devel >= %{qtver}
+BuildRequires:	Qt5Gui-devel >= %{qtver}
+BuildRequires:	Qt5Test-devel >= %{qtver}
+BuildRequires:	Qt5Widgets-devel >= %{qtver}
 BuildRequires:	cmake >= 3.16
 BuildRequires:	gpgme-c++-devel >= 1:1.7.0
 BuildRequires:	kf5-extra-cmake-modules >= %{version}
@@ -37,13 +37,13 @@ BuildRequires:	kf5-kwidgetsaddons-devel >= %{version}
 BuildRequires:	kf5-kwindowsystem-devel >= %{version}
 BuildRequires:	libgcrypt-devel >= 1.5.0
 BuildRequires:	ninja
-BuildRequires:	qca-qt6-devel
+BuildRequires:	qca-qt5-devel
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
-Requires:	Qt6DBus >= %{qtver}
-Requires:	Qt6Gui >= %{qtver}
-Requires:	Qt6Widgets >= %{qtver}
+Requires:	Qt5DBus >= %{qtver}
+Requires:	Qt5Gui >= %{qtver}
+Requires:	Qt5Widgets >= %{qtver}
 Requires:	gpgme-c++ >= 1:1.7.0
 Requires:	kf5-dirs
 Requires:	kf5-kconfig >= %{version}
@@ -58,7 +58,7 @@ Requires:	kf5-kwindowsystem >= %{version}
 Requires:	libgcrypt >= 1.5.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		qt6dir		%{_libdir}/qt6
+%define		qt5dir		%{_libdir}/qt5
 
 %description
 This framework contains two main components:
@@ -74,7 +74,7 @@ Summary:	Header files for %{kfname} development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kfname}
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	Qt6Gui-devel >= %{qtver}
+Requires:	Qt5Gui-devel >= %{qtver}
 
 %description devel
 Header files for %{kfname} development.
@@ -113,23 +113,25 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{kfname}.lang
 %defattr(644,root,root,755)
 %doc README.md
+%attr(755,root,root) %{_bindir}/kwalletd5
 %attr(755,root,root) %{_bindir}/kwallet-query
-%attr(755,root,root) %{_bindir}/kwalletd6
-%attr(755,root,root) %{_libdir}/libKF6Wallet.so.*.*
-%ghost %{_libdir}/libKF6Wallet.so.6
-%attr(755,root,root) %{_libdir}/libKF6WalletBackend.so.*.*
-%ghost %{_libdir}/libKF6WalletBackend.so.6
-%{_desktopdir}/org.kde.kwalletd6.desktop
-%{_datadir}/dbus-1/interfaces/kf6_org.kde.KWallet.xml
+%ghost %{_libdir}/libKF5Wallet.so.5
+%attr(755,root,root) %{_libdir}/libKF5Wallet.so.*.*
+%ghost %{_libdir}/libkwalletbackend5.so.5
+%attr(755,root,root) %{_libdir}/libkwalletbackend5.so.*.*
+%{_datadir}/dbus-1/interfaces/kf5_org.kde.KWallet.xml
 %{_datadir}/dbus-1/services/org.kde.kwalletd5.service
-%{_datadir}/dbus-1/services/org.kde.kwalletd6.service
-%{_datadir}/knotifications6/kwalletd6.notifyrc
-%{_datadir}/qlogging-categories6/kwallet.categories
-%{_datadir}/qlogging-categories6/kwallet.renamecategories
-%{_mandir}/man1/kwallet-query.1*
+%{_datadir}/kservices5/kwalletd5.desktop
+%{_datadir}/qlogging-categories5/kwallet.categories
+%{_datadir}/qlogging-categories5/kwallet.renamecategories
+%{_desktopdir}/org.kde.kwalletd5.desktop
+%{_datadir}/knotifications5/kwalletd5.notifyrc
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/KF6/KWallet
-%{_libdir}/cmake/KF6Wallet
-%{_libdir}/libKF6Wallet.so
+%{_includedir}/KF5/KWallet
+%{_libdir}/cmake/KF5Wallet
+%{_libdir}/libKF5Wallet.so
+%{_libdir}/libkwalletbackend5.so
+%{qt5dir}/mkspecs/modules/qt_KWallet.pri
+%{_mandir}/man1/kwallet-query.1*
