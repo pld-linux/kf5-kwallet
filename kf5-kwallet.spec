@@ -6,24 +6,24 @@
 %bcond_with	tests		# test suite
 
 %define		kdeframever	5.116
-%define		qtver		5.15.2
+%define		qt_ver		5.15.2
 %define		kfname		kwallet
 
 Summary:	Safe desktop-wide storage for passwords
 Summary(pl.UTF-8):	Bezpieczny schowek na hasła dla całego środowiska
 Name:		kf5-%{kfname}
 Version:	5.116.0
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/frameworks/%{kdeframever}/%{kfname}-%{version}.tar.xz
 # Source0-md5:	2e24331b2a1e6253c18d45481ae9f90d
 URL:		https://kde.org/
-BuildRequires:	Qt5Core-devel >= %{qtver}
-BuildRequires:	Qt5DBus-devel >= %{qtver}
-BuildRequires:	Qt5Gui-devel >= %{qtver}
-BuildRequires:	Qt5Test-devel >= %{qtver}
-BuildRequires:	Qt5Widgets-devel >= %{qtver}
+BuildRequires:	Qt5Core-devel >= %{qt_ver}
+BuildRequires:	Qt5DBus-devel >= %{qt_ver}
+BuildRequires:	Qt5Gui-devel >= %{qt_ver}
+BuildRequires:	Qt5Test-devel >= %{qt_ver}
+BuildRequires:	Qt5Widgets-devel >= %{qt_ver}
 BuildRequires:	cmake >= 3.16
 BuildRequires:	gpgme-c++-devel >= 1:1.7.0
 BuildRequires:	kf5-extra-cmake-modules >= %{version}
@@ -43,9 +43,11 @@ BuildRequires:	qca-qt5-devel
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
-Requires:	Qt5DBus >= %{qtver}
-Requires:	Qt5Gui >= %{qtver}
-Requires:	Qt5Widgets >= %{qtver}
+# allow using also kf6-kwallet-service (for parallel install of kf5-kwallet and kf6-kwallet)
+Requires:	%{name}-service >= %{version}-%{release}
+Requires:	Qt5DBus >= %{qt_ver}
+Requires:	Qt5Gui >= %{qt_ver}
+Requires:	Qt5Widgets >= %{qt_ver}
 Requires:	gpgme-c++ >= 1:1.7.0
 Requires:	kf5-dirs
 Requires:	kf5-kconfig >= %{version}
@@ -80,13 +82,26 @@ Summary:	Header files for %{kfname} development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kfname}
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	Qt5Gui-devel >= %{qtver}
+Requires:	Qt5Gui-devel >= %{qt_ver}
 
 %description devel
 Header files for %{kfname} development.
 
 %description devel -l pl.UTF-8
 Pliki nagłówkowe dla programistów używających %{kfname}.
+
+%package service
+Summary:	KWallet server and query interface
+Summary(pl.UTF-8):	Serwer KWallet i interfejs do zapytań
+Group:		X11/Applications
+Requires:	%{name} = %{version}-%{release}
+Conflicts:	kf6-kwallet
+
+%description service
+KWallet server and query interface.
+
+%description service -l pl.UTF-8
+Serwer KWallet i interfejs do zapytań.
 
 %prep
 %setup -q -n %{kfname}-%{version}
@@ -108,7 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %ninja_install -C build
 
-%find_lang %{kfname} --all-name --with-kde
+# kwallet-query and kwalletd5 domains
+%find_lang %{kfname} --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -119,25 +135,28 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{kfname}.lang
 %defattr(644,root,root,755)
 %doc README.md
-%attr(755,root,root) %{_bindir}/kwalletd5
-%attr(755,root,root) %{_bindir}/kwallet-query
+%attr(755,root,root) %{_libdir}/libKF5Wallet.so.*.*.*
 %ghost %{_libdir}/libKF5Wallet.so.5
-%attr(755,root,root) %{_libdir}/libKF5Wallet.so.*.*
+%attr(755,root,root) %{_libdir}/libkwalletbackend5.so.*.*.*
 %ghost %{_libdir}/libkwalletbackend5.so.5
-%attr(755,root,root) %{_libdir}/libkwalletbackend5.so.*.*
 %{_datadir}/dbus-1/interfaces/kf5_org.kde.KWallet.xml
-%{_datadir}/dbus-1/services/org.kde.kwalletd5.service
-%{_datadir}/kservices5/kwalletd5.desktop
 %{_datadir}/qlogging-categories5/kwallet.categories
 %{_datadir}/qlogging-categories5/kwallet.renamecategories
-%{_desktopdir}/org.kde.kwalletd5.desktop
-%{_datadir}/knotifications5/kwalletd5.notifyrc
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/KF5/KWallet
-%{_libdir}/cmake/KF5Wallet
 %{_libdir}/libKF5Wallet.so
 %{_libdir}/libkwalletbackend5.so
+%{_includedir}/KF5/KWallet
+%{_libdir}/cmake/KF5Wallet
 %{qt5dir}/mkspecs/modules/qt_KWallet.pri
+
+%files service
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/kwallet-query
+%attr(755,root,root) %{_bindir}/kwalletd5
+%{_datadir}/dbus-1/services/org.kde.kwalletd5.service
+%{_datadir}/knotifications5/kwalletd5.notifyrc
+%{_datadir}/kservices5/kwalletd5.desktop
+%{_desktopdir}/org.kde.kwalletd5.desktop
 %{_mandir}/man1/kwallet-query.1*
