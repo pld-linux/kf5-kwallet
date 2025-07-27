@@ -25,7 +25,7 @@ BuildRequires:	Qt5Gui-devel >= %{qt_ver}
 BuildRequires:	Qt5Test-devel >= %{qt_ver}
 BuildRequires:	Qt5Widgets-devel >= %{qt_ver}
 BuildRequires:	cmake >= 3.16
-BuildRequires:	gpgmepp-devel >= 1:1.7.0
+BuildRequires:	gpgmepp-devel
 BuildRequires:	kf5-extra-cmake-modules >= %{version}
 BuildRequires:	kf5-kconfig-devel >= %{version}
 BuildRequires:	kf5-kconfigwidgets-devel >= %{version}
@@ -48,7 +48,6 @@ Requires:	%{name}-service >= %{version}-%{release}
 Requires:	Qt5DBus >= %{qt_ver}
 Requires:	Qt5Gui >= %{qt_ver}
 Requires:	Qt5Widgets >= %{qt_ver}
-Requires:	gpgmepp >= 1:1.7.0
 Requires:	kf5-dirs
 Requires:	kf5-kconfig >= %{version}
 Requires:	kf5-kconfigwidgets >= %{version}
